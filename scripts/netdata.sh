@@ -31,5 +31,5 @@ EOF
 sudo systemctl restart netdata
 
 echo "-------------------------------------------------------"
-echo "Netdata 설치 및 스트리밍 설정이 완료되었습니다."
+echo "API KEY: $NETDATA_API_KEY"
 echo "-------------------------------------------------------"
