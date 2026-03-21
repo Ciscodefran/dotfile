@@ -34,6 +34,7 @@ ln -sfn "$HOME/dotfile/.config/nvim" "$HOME/.config/nvim"
 if ! grep -q "export COLORTERM=truecolor" "$HOME/.bashrc"; then
     echo "alias fd='fdfind'" >> "$HOME/.bashrc"
     echo "export COLORTERM=truecolor" >> "$HOME/.bashrc"
+    echo "export TERM=xterm-256color" >> "$HOME/.bashrc"
 fi
 
 echo "--------------------------------------------------"
