@@ -1,22 +1,26 @@
 #!/bin/bash
+echo ">>> Setting up Ruby environment..."
 
-sudo apt update && sudo apt install -y \
-    git curl build-essential libssl-dev libyaml-dev libreadline-dev \
-    zlib1g-dev libffi-dev libgdbm-dev
+sudo apt install -y libyaml-dev libreadline-dev zlib1g-dev libffi-dev libgdbm-dev
 
 if [ ! -d "$HOME/.rbenv" ]; then
     git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+    echo 'eval "$(rbenv init -)"' >> ~/.bashrc
     export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
     mkdir -p "$(rbenv root)"/plugins
     git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
 fi
 
-echo "Installing Ruby 4.0.2... (This may take a while)"
-rbenv install 4.0.2 -s
-rbenv global 4.0.2
+LATEST_RUBY=$(rbenv install -l | grep -v -E '[a-z]' | tail -1 | xargs)
+echo "Found latest Ruby version: $LATEST_RUBY"
 
-echo "Installing Rails..."
+rbenv install "$LATEST_RUBY" -s
+rbenv global "$LATEST_RUBY"
+
+echo ">>> Updating RubyGems and installing Rails..."
+gem update --system --no-document
 gem install bundler rails --no-document
 
-echo "Ruby 4.0.2 and Rails installation finished!"
+echo "Ruby $LATEST_RUBY and Rails installation finished!"
