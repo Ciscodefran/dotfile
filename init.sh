@@ -1,11 +1,13 @@
 #!/bin/bash
 INSTALL_RUBY=false
 INSTALL_NVIM=false
+INSTALL_NETDATA=false
 
 while [[ $# -gt 0 ]]; do
   case $1 in
     --ruby) INSTALL_RUBY=true; shift ;;
     --nvim) INSTALL_NVIM=true; shift ;;
+    --netdata) INSTALL_NETDATA=true; shift ;;
     *) echo "Unknown option: $1"; exit 1 ;;
   esac
 done
@@ -21,6 +23,10 @@ fi
 
 if [ "$INSTALL_NVIM" = true ]; then
     bash ./scripts/nvim.sh
+fi
+
+if [ "$INSTALL_NETDATA" = true ]; then
+    bash ./scripts/netdata.sh
 fi
 
 echo "--------------------------------------------------"

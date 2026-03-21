@@ -1,7 +1,7 @@
 #!/bin/bash
 
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
+~/.fzf/install --all
 
 sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update && sudo apt install -y neovim
