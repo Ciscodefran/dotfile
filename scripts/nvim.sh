@@ -14,11 +14,11 @@ if ! command -v nvim &> /dev/null; then
     case "$OS" in
         ubuntu|debian)
             sudo add-apt-repository ppa:neovim-ppa/unstable -y
-            $PM update && $PM install -y neovim
+            $PM update && $PM install -y neovim ripgrep fd-find
             ;;
         rocky|centos|rhel)
             $PM install -y epel-release
-            $PM install -y neovim
+            $PM install -y neovim ripgrep fd-find
             ;;
     esac
 fi

@@ -15,13 +15,13 @@ case "$OS" in
     ubuntu|debian)
         PM_CMD="sudo apt"
         UPDATE_CMD="sudo apt update"
-        COMMON_PKGS="git curl gcc g++ make unzip wget pkg-config libssl-dev build-essential ripgrep fd-find python3-venv"
+        COMMON_PKGS="git curl gcc g++ make unzip wget pkg-config libssl-dev build-essential python3-venv"
         UUID_PKG="uuid-runtime"
         ;;
     rocky|centos|rhel)
         PM_CMD="sudo dnf"
         UPDATE_CMD="true"
-        COMMON_PKGS="git curl gcc gcc-c++ make unzip wget pkgconf-pkg-config openssl-devel ripgrep fd-find python3"
+        COMMON_PKGS="git curl gcc gcc-c++ make unzip wget pkgconf-pkg-config openssl-devel python3"
         INSTALL_GROUP="@development"
         UUID_PKG="util-linux"
         ;;
