@@ -1,8 +1,11 @@
 #!/bin/bash
 echo ">>> Setting up Netdata (Headless Collector) with Dynamic UUID..."
+PM=$1
+PKG_NAME=$2
 
 if ! command -v uuidgen &> /dev/null; then
-    sudo apt update && sudo apt install -y uuid-runtime
+    echo "Installing $PKG_NAME..."
+    $PM install -y "$PKG_NAME"
 fi
 
 NETDATA_API_KEY=$(uuidgen)
