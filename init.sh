@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 INSTALL_RUBY=false
 INSTALL_NVIM=false
@@ -53,19 +53,19 @@ if [ ! -z "$INSTALL_GROUP" ]; then
 fi
 
 if [ "$INSTALL_DOCKER" = true ]; then
-    bash "$SCRIPT_DIR/scripts/docker.sh" "$PM" "$OS"
+    bash "$BASE_DIR/scripts/docker.sh" "$PM" "$OS"
 fi
 
 if [ "$INSTALL_RUBY" = true ]; then
-    bash "$SCRIPT_DIR/scripts/ruby.sh" "$PM" "$RUBY_DEPS"
+    bash "$BASE_DIR/scripts/ruby.sh" "$PM" "$RUBY_DEPS"
 fi
 
 if [ "$INSTALL_NVIM" = true ]; then
-    bash "$SCRIPT_DIR/scripts/nvim.sh" "$PM" "$OS"
+    bash "$BASE_DIR/scripts/nvim.sh" "$PM" "$OS"
 fi
 
 if [ "$INSTALL_NETDATA" = true ]; then
-    bash "$SCRIPT_DIR/scripts/netdata.sh" "$PM" "$UUID_PKG"
+    bash "$BASE_DIR/scripts/netdata.sh" "$PM" "$UUID_PKG"
 fi
 
 echo "--------------------------------------------------"
