@@ -2,6 +2,7 @@
 INSTALL_RUBY=false
 INSTALL_NVIM=false
 INSTALL_NETDATA=false
+INSTALL_DOCKER=false
 
 if [ -f /etc/os-release ]; then
   . /etc/os-release
@@ -44,6 +45,10 @@ $PM_CMD install -y $COMMON_PKGS
 
 if [ ! -z "$INSTALL_GROUP" ]; then
     $PM_CMD groupinstall -y "Development Tools"
+fi
+
+if [ "$INSTALL_DOCKER" = true ]; then
+    bash ./scripts/docker.sh "$PM" "$OS"
 fi
 
 if [ "$INSTALL_RUBY" = true ]; then
