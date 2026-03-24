@@ -61,7 +61,7 @@ if [ "$INSTALL_RUBY" = true ]; then
 fi
 
 if [ "$INSTALL_NVIM" = true ]; then
-    bash "$BASE_DIR/scripts/nvim.sh" "$PM" "$OS"
+    bash "$BASE_DIR/scripts/nvim.sh" "$BASE_DIR" "$PM" "$OS"
 fi
 
 if [ "$INSTALL_NETDATA" = true ]; then

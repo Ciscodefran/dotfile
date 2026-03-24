@@ -4,9 +4,7 @@ set -e
 PM=$1
 OS=$2
 
-echo ">>> Installing Docker Engine for $OS..."
-
-$PM remove -y docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine &> /dev/null
+$PM remove -y docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine 2>/dev/null || true
 
 case "$OS" in
     ubuntu|debian)

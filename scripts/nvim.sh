@@ -1,10 +1,9 @@
 #!/bin/bash
 set -e
 
-PM=$1
-OS=$2
-
-echo ">>> Setting up Neovim environment for $OS using $PM..."
+BASE_DIR=$1
+PM=$2
+OS=$3
 
 if [ ! -d "$HOME/.fzf" ]; then
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
@@ -47,7 +46,7 @@ if ! command -v lazygit &> /dev/null; then
     rm lazygit lazygit.tar.gz
 fi
 
-git submodule update --init --recursive
+git -C "$BASE_DIR" submodule update --init --recursive
 mkdir -p "$HOME/.config"
 ln -sfn "$HOME/dotfile/.config/nvim" "$HOME/.config/nvim"
 
