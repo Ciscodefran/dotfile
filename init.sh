@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 INSTALL_RUBY=false
 INSTALL_NVIM=false
 INSTALL_NETDATA=false
@@ -14,14 +16,15 @@ fi
 
 case "$OS" in
     ubuntu|debian)
-        PM_CMD="sudo apt"
-        UPDATE_CMD="sudo apt update"
+        PM="sudo apt"
+        UPDATE_CMD="$PM update"
         COMMON_PKGS="git curl gcc g++ make unzip wget pkg-config libssl-dev build-essential python3-venv"
+        RUBY_DEPS="libyaml-dev libreadline-dev zlib1g-dev libffi-dev libgdbm-dev"
         UUID_PKG="uuid-runtime"
         ;;
     rocky|centos|rhel)
-        PM_CMD="sudo dnf"
-        UPDATE_CMD="true"
+        PM="sudo dnf"
+        UPDATE_CMD="$PM install -y epel-release"
         COMMON_PKGS="git curl gcc gcc-c++ make unzip wget pkgconf-pkg-config openssl-devel python3"
         INSTALL_GROUP="@development"
         UUID_PKG="util-linux"
@@ -35,16 +38,17 @@ while [[ $# -gt 0 ]]; do
     --ruby) INSTALL_RUBY=true; shift ;;
     --nvim) INSTALL_NVIM=true; shift ;;
     --netdata) INSTALL_NETDATA=true; shift ;;
+    --docker) INSTALL_DOCKER=true; shift ;;
     *) echo "Unknown option: $1"; exit 1 ;;
   esac
 done
 
 echo ">>> Installing common base libraries..."
 $UPDATE_CMD
-$PM_CMD install -y $COMMON_PKGS
+$PM install -y $COMMON_PKGS
 
 if [ ! -z "$INSTALL_GROUP" ]; then
-    $PM_CMD groupinstall -y "Development Tools"
+    $PM groupinstall -y "Development Tools"
 fi
 
 if [ "$INSTALL_DOCKER" = true ]; then
@@ -52,7 +56,7 @@ if [ "$INSTALL_DOCKER" = true ]; then
 fi
 
 if [ "$INSTALL_RUBY" = true ]; then
-    bash ./scripts/ruby.sh "$PM"
+    bash ./scripts/ruby.sh "$PM" "$RUBY_DEPS"
 fi
 
 if [ "$INSTALL_NVIM" = true ]; then

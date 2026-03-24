@@ -1,14 +1,23 @@
 #!/bin/bash
-echo ">>> Setting up Ruby environment..."
+set -e
+PM=$1
+DEPS=$2
 
-sudo apt install -y libyaml-dev libreadline-dev zlib1g-dev libffi-dev libgdbm-dev
+echo ">>> Installing Ruby build dependencies..."
+$PM install -y $DEPS
 
 if [ ! -d "$HOME/.rbenv" ]; then
     git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-    echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-    export PATH="$HOME/.rbenv/bin:$PATH"
-    eval "$(rbenv init -)"
+    if ! grep -q 'rbenv init' ~/.bashrc; then
+        echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+        echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+    fi
+fi
+
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(~/.rbenv/bin/rbenv init -)"
+
+if [ ! -d "$(rbenv root)/plugins/ruby-build" ]; then
     mkdir -p "$(rbenv root)"/plugins
     git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
 fi
@@ -19,7 +28,6 @@ echo "Found latest Ruby version: $LATEST_RUBY"
 rbenv install "$LATEST_RUBY" -s
 rbenv global "$LATEST_RUBY"
 
-echo ">>> Updating RubyGems and installing Rails..."
 gem update --system --no-document
 gem install bundler rails --no-document
 

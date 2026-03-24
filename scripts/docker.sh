@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 PM=$1
 OS=$2

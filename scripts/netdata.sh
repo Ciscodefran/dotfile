@@ -1,5 +1,6 @@
 #!/bin/bash
-echo ">>> Setting up Netdata (Headless Collector) with Dynamic UUID..."
+set -e
+
 PM=$1
 PKG_NAME=$2
 
