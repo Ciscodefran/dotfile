@@ -5,6 +5,26 @@ BASE_DIR=$1
 PM=$2
 OS=$3
 
+NERD_FONT="JetBrainsMono"
+FONT_DIR="$HOME/.local/share/fonts"
+
+if ! fc-list | grep -qi "$NERD_FONT.*Nerd"; then
+    echo ">>> Installing $NERD_FONT Nerd Font..."
+    mkdir -p "$FONT_DIR"
+    curl -fsSL -o /tmp/nerd-font.zip \
+        "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${NERD_FONT}.zip"
+    unzip -o /tmp/nerd-font.zip -d "$FONT_DIR/$NERD_FONT" -x "LICENSE*" "README*"
+    rm /tmp/nerd-font.zip
+    fc-cache -fv "$FONT_DIR"
+
+    # GNOME Terminal 기본 폰트 설정
+    if command -v gsettings &> /dev/null && gsettings list-schemas | grep -q org.gnome.Terminal; then
+        PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default | tr -d "'")
+        gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${PROFILE}/" use-system-font false
+        gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:${PROFILE}/" font "$NERD_FONT Nerd Font Mono 11"
+    fi
+fi
+
 if [ ! -d "$HOME/.fzf" ]; then
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install --all
