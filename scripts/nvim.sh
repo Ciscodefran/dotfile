@@ -31,7 +31,9 @@ if ! command -v node &> /dev/null; then
     fi
     $PM install -y nodejs
 fi
-sudo npm install -g tree-sitter-cli
+if ! command -v tree-sitter &> /dev/null; then
+    sudo npm install -g tree-sitter-cli
+fi
 
 if ! command -v cargo &> /dev/null; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -48,14 +50,17 @@ fi
 
 git -C "$BASE_DIR" submodule update --init --recursive
 mkdir -p "$HOME/.config"
-ln -sfn "$HOME/dotfile/.config/nvim" "$HOME/.config/nvim"
+ln -sfn "$BASE_DIR/.config/nvim" "$HOME/.config/nvim"
+
+if [ "$OS" == "ubuntu" ] && ! grep -q "alias fd='fdfind'" "$HOME/.bashrc"; then
+    echo "alias fd='fdfind'" >> "$HOME/.bashrc"
+fi
 
 if ! grep -q "export COLORTERM=truecolor" "$HOME/.bashrc"; then
-    # Ubuntu에서만 fdfind 별칭 필요
-    if [ "$OS" == "ubuntu" ]; then
-        echo "alias fd='fdfind'" >> "$HOME/.bashrc"
-    fi
     echo "export COLORTERM=truecolor" >> "$HOME/.bashrc"
+fi
+
+if ! grep -q "export TERM=xterm-256color" "$HOME/.bashrc"; then
     echo "export TERM=xterm-256color" >> "$HOME/.bashrc"
 fi
 
