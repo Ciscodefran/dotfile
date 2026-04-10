@@ -6,6 +6,7 @@ INSTALL_RUBY=false
 INSTALL_NVIM=false
 INSTALL_NETDATA=false
 INSTALL_DOCKER=false
+INSTALL_TMUX=false
 
 usage() {
     echo "Usage: $0 [OPTIONS]"
@@ -15,6 +16,7 @@ usage() {
     echo "  --nvim      Neovim, FZF, Lazygit 설치"
     echo "  --ruby      rbenv 기반 최신 Ruby & Rails 설치"
     echo "  --netdata   Netdata (Headless Collector) 설정"
+    echo "  --tmux      tmux 설치 및 환경설정"
     echo "  --help      이 도움말 출력"
     exit 0
 }
@@ -53,6 +55,7 @@ while [[ $# -gt 0 ]]; do
     --nvim) INSTALL_NVIM=true; shift ;;
     --netdata) INSTALL_NETDATA=true; shift ;;
     --docker) INSTALL_DOCKER=true; shift ;;
+    --tmux) INSTALL_TMUX=true; shift ;;
     --help) usage ;;
     *) echo "Unknown option: $1"; exit 1 ;;
   esac
@@ -80,6 +83,10 @@ fi
 
 if [ "$INSTALL_NETDATA" = true ]; then
     bash "$BASE_DIR/scripts/netdata.sh" "$PM" "$UUID_PKG"
+fi
+
+if [ "$INSTALL_TMUX" = true ]; then
+    bash "$BASE_DIR/scripts/tmux.sh" "$BASE_DIR" "$PM" "$OS"
 fi
 
 echo "--------------------------------------------------"
